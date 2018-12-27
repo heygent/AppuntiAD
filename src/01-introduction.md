@@ -18,15 +18,18 @@ differenziano sono:
   sono eseguiti su più processori, che hanno bisogno di comunicare in qualche
   modo.
 
-* Il *modello di temporizzazione*: I processori possono essere considerati da
-  un lato **completamente sincroni**, eseguendo comunicazioni e computazioni
-  di pari passo. Dall'altro, possono essere **completamente asincroni**,
-  esegendo passi a velocità arbitrarie e in ordine arbitrario. Nel mezzo, si
-  trova una diversa gamma di possibili presupposizioni che possono essere
-  raggruppate con la designazione **parzialmente sincroni**: in questo caso, i
-  processori hanno informazioni parziali sulla temporizzazione degli eventi
-  (es. i processori hanno dei limiti sulle loro velocità relativa o hanno
-  accesso a un clock approssimativamente sincronizzato).
+* Il *modello di temporizzazione*: I processori possono essere considerati:
+
+  - **completamente sincroni**: eseguono comunicazioni e computazioni di pari
+    passo. 
+
+  * **completamente asincroni**, eseguono passi a velocità arbitrarie e in
+    ordine arbitrario.
+
+  * **parzialmente sincroni**: i processori hanno informazioni parziali sulla
+    temporizzazione degli eventi (es. i processori hanno dei limiti sulle loro
+    velocità relativa o hanno accesso a un clock approssimativamente
+    sincronizzato).
 
 * Il *modello di fallimento*: Si può supporre che il sistema sia completamente
   affidabile, o che l'algoritmo debba tollerare una certa quantità di

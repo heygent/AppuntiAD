@@ -1,10 +1,14 @@
 SRC=src
-SRC_FILES=$(sort $(wildcard ${SRC}/*.md ${SRC}/*.yaml))
 OUT=out
-FLAGS=--top-level-division=chapter
 
-${OUT}/appunti.pdf: ${SRC_FILES} | DIRS
-	pandoc -t latex ${FLAGS} -o $@ $^
+MD=$(sort $(wildcard ${SRC}/*.md))
+META=${SRC}/meta.yaml
+TEX_DEFS=${SRC}/newcommands.latex
+
+FLAGS=-N --toc --top-level-division=chapter
+
+${OUT}/appunti.pdf: ${MD} ${META} ${TEX_DEFS} | DIRS
+	pandoc -t latex ${FLAGS} --metadata-file=${META} -B ${TEX_DEFS} -o $@ ${MD}
 
 DIRS:
 	mkdir -p ${OUT}
