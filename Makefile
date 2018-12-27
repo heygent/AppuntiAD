@@ -3,7 +3,7 @@ OUT=out
 
 MD=$(sort $(wildcard ${SRC}/*.md))
 META=${SRC}/meta.yaml
-TEX_DEFS=${SRC}/newcommands.latex
+TEX_DEFS=${SRC}/newcommands.tex
 
 FLAGS=-N --toc --top-level-division=chapter
 
