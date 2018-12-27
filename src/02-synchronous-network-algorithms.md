@@ -203,4 +203,67 @@ dimostrate per induzione sul numero di round completati.
 
 ## Misure di complessità
 
+### Complessità temporale {-}
+
+Viene misurata nei termini del numero di round richiesti fino a quando tutti i
+round richiesti vengono prodotti, o finché tutti i processi si arrestano. Se il
+sistema permette tempi di avvio variabili, la complessità viene misurata dal
+primo round in cui avviene un *wakeup*, in qualunque processo esso occorra.
+
+Nella pratica, la complessità temporale è più importante, non solo per gli
+algoritmi sincroni ma per tutti gli algoritmi distribuiti.
+
+### Complessità di comunicazione {-}
+
+Viene misurata nei termini della quantità di messaggi non-nulli che viene
+inviata. Occasionalmente, si tiene anche in conto del numero dei bit nei
+messaggi.
+
+La complessità di comunicazione è significativa se causa abbastanza congestione
+da rallentare l'elaborazione. L'impatto del carico della comunicazione sulla
+complessità temporale può accumularsi nel caso frequente in cui vi sono più
+algoritmi distribuiti in esecuzione in una stessa rete, condividendo la stessa
+banda. È difficile quantificare l'impatto che i messaggi di un algoritmo hanno
+sulla performance di altri algoritmi, per cui ci si limita ad analizzare (e
+cercare di minimizzare) il numero di messaggi generati dagli algoritmi
+individuali.
+
+## Randomizzazione
+
+Invece di richiedere che i processi siano deterministici, a volte è utile
+permettere a questi di eseguire scelte casuali, basate su qualche distribuzione
+probabilistica. Dal momento in cui il modello sincrono di base non lo permette,
+aumentiamo il modello introducendo una nuova *funzione random* in aggiunta a
+quelle di generazione dei messaggi e di transizione, per rappresentare il passo
+della scelta casuale.
+
+Formalmente, si aggiunge una componente $rand_i$ a ogni nodo $i$ nella
+descrizione dell'automa fornita in precedenza. Per ogni stato $s$, $rand_i(s)$
+è una distribuzione probabilistica su di un sottoinsieme di
+$states_i$.
+
+In ogni round di esecuzione, la funzione $rand_i$ viene usata inizialmente per
+scegliere nuovi stati, e poi le funzioni $msgs_i$ e $trans_i$ vengono applicate
+come al solito.
+
+L'esecuzione del sistema è definita come una sequenza infinita
+
+$$C_0,D_1,M_1,N_1,C_1,D_2,M_2,N_2,C_2,\ldots$$
+
+dove ogni $C_r$ e $D_r$ sono *assegnazioni di stato* e dove ogni $M_r$ e $N_r$
+sono *assegnazioni di messaggio*. $D_r$ rappresenta i nuovi stati dei processi
+dopo le scelte casuali del round $r$.
+
+Le affermazioni su cosa viene computato da un sistema randomizzato sono
+solitamente probabilistici, e asseriscono che certi risultati vengono raggiunti
+con almeno un certo grado di probabilità. Quando queste affermazioni vengono
+fatte, si intende generalmente che queste valgano per tutti gli input, e, in
+caso di sistemi soggetti a fallimento, per tutti i pattern di fallimento.
+
+Per modellare gli input e i pattern di fallimento, si da' per presupposto che
+un'entità fittizia chiamata *avversario* controlli le scelte di input e le
+occorrenze dei fallimenti, e le affermazioni probabilistiche asseriscono che il
+sistema si comporta in modo corretto in competizione con ogni avversario
+ammissibile.
+
 
