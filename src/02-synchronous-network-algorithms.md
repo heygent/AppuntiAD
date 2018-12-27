@@ -90,8 +90,71 @@ essere determinato in un altro modo.
 
 Nodo e processo di ambiente
 
-: Occasionalmente, si vuole considerare un sistema sincrono in cui i processi
-si avviano in diversi round. Si modella questa situazione estendendo il grafo
-di rete per includere uno speciale *nodo di ambiente*, che ha archi verso tutti i
-nodi ordinari. Lo scopo del corrispondente *processo di ambiente* è di inviare
-degli speciali *messaggi di wakeup* a tutti gli altri processi.
+  : Occasionalmente, si vuole considerare un sistema sincrono in cui i processi
+  si avviano in diversi round. Si modella questa situazione estendendo il grafo
+  di rete per includere uno speciale *nodo di ambiente*, che ha archi verso
+  tutti i nodi ordinari. Lo scopo del corrispondente *processo di ambiente* è
+  di inviare degli speciali *messaggi di wakeup* a tutti gli altri processi.
+  Ogni stato inziale di ognuno degli altri processi deve essere *quiesciente*,
+  che significa che non causa la generazione di messaggi, e che può essere
+  cambiato a uno stato diverso solo in seguito alla ricezione di un messaggio
+  di wakeup dall'ambiente
+  o da un messaggio non nullo da un altro precesso. Per cui, un processo può
+  essere svegliato:
+
+  * **direttamente**, da un messaggio di wakeup dall'ambiente
+  * **indirettamente**, da un messaggio non nullo da un altro processo.
+
+Grafi non orientati
+
+: A volte si vuole considerare il caso in cui il grafo di rete non è diretto.
+Questa situazione viene modellata considerando un grafo diretto con archi
+bidirezionali tra tutte le coppie di vicini. In questo caso, si usa la
+notazione $nbrs_i$ per indicare i vicini di $i$ nel grafo.
+
+## Fallimento
+
+Si considerano diversi tipi di fallimento nei sistemi sincroni, tra cui
+*fallimento dei processi* e *fallimento dei collegamenti*.
+
+Un processo può esibire uno *stopping failure* semplicemente interrompendosi
+nel mezzo della sua esecuzione. Nei termini del modello, il processo potrebbe
+fallire prima o dopo aver eseguito una qualche istanza del Passo 1 o Passo 2
+descritti prima. In aggiunta, potrebbe interrompersi nel mezzo del Passo 1.
+Questo significa che il processo potrebbe riuscire a mettere nei canali solo un
+sottoinsieme dei messaggi che dovrebbe produrre. Si da per scontato che questo
+possa essere un *qualunque sottoinsieme* - non si considera che il processo
+produce messaggi sequenzialmente e che fallisce nel mezzo della sequenza.
+
+Un processo può anche esibire un *fallimento bizantino*, con cui si intende che
+può generare i suoi prossimi messaggi e il suo prossimo stato in maniera
+arbitraria, senza necessariamente seguire le regole stabilite dalle funzioni di
+generazione dei messaggi e di transizione di stato.
+
+Un collegamento può fallire perdendo messaggi. Nei termini del modello, un
+processo può tentare di inserire un messaggio nel canale durante il Passo 1,
+mentre il collegamento fallace non lo registra.
+
+## Input e output
+
+Si usa la convenzione di codificare gli input e gli output negli stati. In
+particolare, gli input sono inseriti in variabili designate negli stati
+iniziali. Il fatto che il processo possa avere diversi stati iniziali è
+importante qui, perché permette di accomodare diversi input. Di fatto, si
+da normalmente per scontato che l'unica fonte di molteplicità di stati iniziali
+è la possibilità di avere diversi valori di input nelle variabili di input.
+
+## Esecuzioni
+
+Per ragionare sul comportamento di un sistema di rete sincrono, è necessaria
+una notazione formale dell'esecuzione di un sistema.
+
+* Un *assegnazione di stato* $C_i$ di un sistema è definita come l'assegnazione
+  di uno stato a ogni processo del sistema.
+* Un *assegnazione di messaggio* è un'assegnazione di messaggi (possibilmente
+  $null$) a ogni canale del sistema.
+
+Un'esecuzione del sistema è definita come una sequenza infinita
+
+$$C_0,M_1,N_1,C_1,M_2,N_2,C_2,\ldots$$
+
