@@ -3,12 +3,17 @@ OUT=out
 
 MD=$(sort $(wildcard ${SRC}/*.md))
 META=${SRC}/meta.yaml
-TEX_DEFS=${SRC}/newcommands.tex
+BEFORE_BODY=${SRC}/before-body.tex
+IN_HEADER=${SRC}/in-header.tex
 
 FLAGS=-N --toc --top-level-division=chapter
 
-${OUT}/appunti.pdf: ${MD} ${META} ${TEX_DEFS} | DIRS
-	pandoc -t latex ${FLAGS} --metadata-file=${META} -B ${TEX_DEFS} -o $@ ${MD}
+${OUT}/appunti.pdf ${OUT}/appunti.tex: ${MD} ${META} ${BEFORE_BODY} ${IN_HEADER} | DIRS
+	pandoc -t latex ${FLAGS} \
+		--metadata-file=${META} \
+		-B ${BEFORE_BODY} \
+		-H ${IN_HEADER} \
+		-o $@ ${MD}
 
 DIRS:
 	mkdir -p ${OUT}
